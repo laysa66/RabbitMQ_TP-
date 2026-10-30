@@ -1,91 +1,34 @@
-# TP RabbitMQ — Messagerie asynchrone
+# TP RabbitMQ — Corrigé
 
-Un TP guidé pour découvrir RabbitMQ à travers le scénario d’une boutique en ligne : envoi d’e-mails, partage des tâches et diffusion d’événements vers plusieurs services.
+Cette branche accompagne le [TP étudiant disponible sur `main`](https://github.com/laysa66/RabbitMQ_TP-/tree/main).
 
-**Public :** étudiants IWA / AWI · **Organisation :** en binôme · **Durée :** 1 h, hors installation et bonus.
+## Consulter le corrigé
 
-## Commencer
+- **[Corrigé complet en PDF](docs/TP-RabbitMQ-correction.pdf)** — réponses aux questions, résultats attendus, explications et solutions des TODO dans les trois langages.
+- [Source modifiable du corrigé](docs/TP-RabbitMQ-correction.md).
+- [Support étudiant en PDF](docs/TP-RabbitMQ-etudiant.pdf).
 
-1. Lire le [TP étudiant en PDF](docs/TP-RabbitMQ-etudiant.pdf).
-2. Télécharger et décompresser le [kit étudiant](TP-RabbitMQ-kit-etudiant.zip), ou utiliser le dossier [`kit/`](kit/) après avoir cloné le dépôt.
-3. Choisir **un seul parcours** : Python, Node.js ou Java / Spring AMQP.
-4. Préparer le poste avant la séance, puis suivre les étapes du PDF.
+Le corrigé correspond à la version du support étudiant en **12 pages** et reprend ses repères **Q1 à Q7**, **H**, **T1** et **T2**.
 
-Le code de connexion et les workers sont fournis. Trois zones sont à compléter : **H** pour le premier envoi, **T1** pour les bindings et **T2** pour la publication d’événements. Les erreurs signalant ces TODO sont volontaires. Cette branche ne contient pas les solutions.
+## Contenu
 
-## Objectifs
+1. Lecture, remise en queue et acquittement dans l’interface.
+2. Premier producer et premier consumer.
+3. Work queue, prefetch et reprise après interruption.
+4. Routage topic et tableau des destinataires.
+5. Réponses possibles au mini rendu et critères de compréhension.
+6. Compléments de code Python, Node.js et Java / Spring AMQP.
+7. Bonus : comparaison du prefetch, durabilité, DLQ et TTL.
+8. Points de vigilance pour interpréter les expériences.
 
-- Publier et consommer des messages.
-- Comprendre les compteurs `Ready` et `Unacked` et le rôle des acquittements.
-- Partager une queue entre plusieurs workers.
-- Observer une redélivrance après interruption.
-- Router des événements avec un exchange `topic`.
+Le dossier [`kit/`](kit/) conserve les squelettes étudiants. Pour refaire le TP avec les solutions, appliquer les blocs H, T1 et T2 du corrigé aux fichiers correspondants, puis suivre les commandes du support étudiant. Après une modification Java, recompiler le jar.
 
-## Préparer le poste
+## Vérifications
 
-Docker Desktop ou OrbStack doit être démarré. Installer ensuite les dépendances de **son** parcours, en suivant la fiche du PDF :
+Les solutions H, T1 et T2 ont été exécutées contre RabbitMQ 4.4.0 dans les trois langages : Hello World, création des bindings, routage des événements et publication avec les consumers arrêtés. Les workers et senders de tâches fournis ont également été vérifiés. Le parcours Python a servi à valider les expériences de panne, de redémarrage et de DLQ/TTL.
 
-| Parcours | Prérequis | Dossier |
-| --- | --- | --- |
-| Python | Python 3.10+ et pip | [`kit/python/`](kit/python/) |
-| Node.js | Node.js 22+ et npm | [`kit/node/`](kit/node/) |
-| Java | JDK 17+ et Maven | [`kit/java/`](kit/java/) |
+La distribution précise des tâches entre deux workers peut varier. Les compteurs web sont actualisés avec un délai ; les interprétations et les limites sont expliquées dans le PDF.
 
-Depuis le dossier `kit/`, démarrer RabbitMQ :
+## Supports étudiants
 
-```sh
-docker compose up -d
-```
-
-Ouvrir ensuite [l’interface de gestion](http://localhost:15672) : identifiant `guest`, mot de passe `guest`. Les programmes utilisent le port **5672** ; l’interface utilise **15672**. La configuration fournie est destinée à un environnement local de TP.
-
-Avec le kit ZIP, exécuter la commande dans le dossier décompressé qui contient `compose.yaml`. Sous Windows, utiliser PowerShell pour les commandes du support.
-
-## Parcours de la séance
-
-| Activité | Durée |
-| --- | --- |
-| Scénario, vocabulaire et rôles | 5 min |
-| Interface : publier, lire et acquitter | 8 min |
-| Premier producer et premier consumer | 10 min |
-| Deux workers et reprise après une panne | 15 min |
-| Routage topic | 17 min |
-| Mini rendu du binôme | 5 min |
-
-Les bonus permettent d’explorer le prefetch, la durabilité et les dead letter queues. Ils ne font pas partie des 60 minutes.
-
-## Contenu du dépôt
-
-```text
-docs/
-  TP-RabbitMQ-etudiant.pdf     # Support à distribuer
-  TP-RabbitMQ-etudiant.md      # Source modifiable
-kit/
-  compose.yaml                # RabbitMQ local
-  python/                     # Squelettes et programmes fournis
-  node/
-  java/
-TP-RabbitMQ-kit-etudiant.zip   # Kit prêt à télécharger
-```
-
-## Conseils pendant le TP
-
-- Faire une prédiction avant chaque expérience, puis noter le résultat.
-- Attendre le message d’attente des consumers avant les publications demandées.
-- Tenir compte du délai d’actualisation des compteurs de l’interface.
-- Terminer un lot et arrêter les anciens workers avant de recommencer.
-- Suivre la fiche de son langage : le mode `AUTO` de Spring ne correspond pas à un acquittement immédiat du protocole.
-
-À la fin de la séance :
-
-```sh
-docker stop tp-rabbitmq
-```
-
-Le conteneur est conservé et peut être relancé avec `docker start tp-rabbitmq`.
-
-## Ressources
-
-- [Tutoriels officiels RabbitMQ](https://www.rabbitmq.com/tutorials)
-- [Acquittements et confirmations](https://www.rabbitmq.com/docs/confirms)
-- [Documentation Spring AMQP](https://docs.spring.io/spring-amqp/reference/)
+Pour distribuer les consignes et le kit sans les solutions, utiliser la branche [`main`](https://github.com/laysa66/RabbitMQ_TP-/tree/main).
